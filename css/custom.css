@@ -1,0 +1,58 @@
+/* // Small devices (landscape phones, 576px and up) */
+
+.container {
+  color: inherit;
+}
+
+@media (max-width: 575px) {
+  .container {
+    background-color: rgb(50,50,50);
+    color: white;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    background-color: rgb(125,125,125);
+    color: white;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    background-color: rgb(150,150,150);
+    color: black;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    background-color: rgb(175,175,175);
+    color: black;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    background-color: rgb(200,200,200);
+    color: black;
+  }
+}
+
+.accordion_row {
+  background-color: rgb(255,255,255);
+  height: 50px;
+}
+
+.accordion_col {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.thumbnail {
+    height:50px;
+    width:100px;
+}
