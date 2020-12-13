@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav"
 import "./App.css";
 import Routes from "./Routes";
 import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./libs/contextLib";
+import { useHistory } from "react-router-dom";
+import axiosInstance from "./axiosApi";
+import { onError } from "./libs/errorLib";
 
 
 // Row = 12 cols or 100%
@@ -33,14 +36,39 @@ This¡¯ll highlight the link when we are on that page.
 */
 
 function App() {
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const history = useHistory();
+  
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  async function onLoad() {
+    axiosInstance.post('/token/verify/', {
+                token: localStorage.getItem("access_token"),
+    }).then(function(response) {
+        console.log(response)
+        userHasAuthenticated(true);
+    }).catch(function (error) {
+        //console.log(error);
+        onError(error);
+    });
+
+    setIsAuthenticating(false);
+  }
   
   function handleLogout() {
+    // add sign out login...
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     userHasAuthenticated(false);
+    history.push("/login");
   }
   
   return (
-    <div className="App container py-3">
+   !isAuthenticating && (
+    <div className="App container-fluid py-3">
       <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
         <LinkContainer to="/">
           <Navbar.Brand className="font-weight-bold text-muted">
@@ -69,6 +97,7 @@ function App() {
         <Routes />
       </AppContext.Provider>
     </div>
+   )
   );
 }
 
